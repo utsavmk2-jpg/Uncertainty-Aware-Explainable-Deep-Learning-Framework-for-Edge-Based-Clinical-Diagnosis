@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Uncertainty-Aware Explainable Deep Learning Framework</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-image: url("../static/images/home.jpg");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #ffffff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(5, 11, 20, 0.72) 0%, rgba(4, 9, 16, 0.92) 100%);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 0;
+    }
+
+    .main-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .pulse-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 245, 212, 0.12);
+      border: 1.5px solid rgba(0, 245, 212, 0.4);
+      color: #00f5d4;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 9999px;
+      margin-bottom: 24px;
+      box-shadow: 0 0 20px rgba(0, 245, 212, 0.25);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00f5d4;
+      box-shadow: 0 0 10px #00f5d4;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.4);
+        opacity: 0.5;
+      }
+
+      100% {
+        transform: scale(0.95);
+        opacity: 1;
+      }
+    }
+
+    .heart-gif {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 18px rgba(0, 245, 212, 0.6));
+      margin-bottom: 20px;
+    }
+
+    .title-headline {
+      font-family: 'Outfit', sans-serif;
+      font-size: 44px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.8px;
+      color: #ffffff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 245, 212, 0.4);
+      max-width: 900px;
+      margin-bottom: 20px;
+    }
+
+    .title-headline span {
+      background: linear-gradient(135deg, #00f5d4, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle-text {
+      font-size: 17px;
+      color: #cbd5e1;
+      max-width: 720px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    /* Disease Pills Grid */
+    .disease-pills-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      max-width: 960px;
+      margin-bottom: 40px;
+    }
+
+    .disease-pill {
+      background: rgba(10, 20, 36, 0.85);
+      border: 1px solid rgba(0, 245, 212, 0.25);
+      color: #f1f5f9;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .disease-pill:hover {
+      background: rgba(0, 245, 212, 0.18);
+      border-color: #00f5d4;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 245, 212, 0.35);
+    }
+
+    /* Primary Enter Button */
+    .enter-btn {
+      background: linear-gradient(135deg, #00f5d4, #00b4d8);
+      border: none;
+      color: #050b14;
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      padding: 18px 46px;
+      border-radius: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 6px 30px rgba(0, 245, 212, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .enter-btn:hover {
+      background: linear-gradient(135deg, #00ffff, #00f5d4);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 40px rgba(0, 245, 212, 0.75);
+      color: #000;
+    }
+
+    .enter-btn svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.25s ease;
+    }
+
+    .enter-btn:hover svg {
+      transform: translateX(4px);
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Multi-Language Translator Switcher */
+    .lang-switcher-wrap {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(10, 20, 36, 0.85);
+      border: 1px solid rgba(0, 245, 212, 0.35);
+      border-radius: 9999px;
+      padding: 4px 6px;
+      gap: 4px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .lang-icon-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 10px 0 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #00f5d4;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: inherit;
+    }
+
+    .lang-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, rgba(0, 245, 212, 0.3), rgba(2, 132, 199, 0.4));
+      border-color: #00f5d4;
+      color: #00f5d4;
+      box-shadow: 0 0 14px rgba(0, 245, 212, 0.35);
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .title-headline {
+        font-size: 30px;
+      }
+
+      .subtitle-text {
+        font-size: 15px;
+      }
+
+      .enter-btn {
+        font-size: 17px;
+        padding: 16px 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-wrapper">
+    <!-- Language Switcher Bar -->
+    <div class="lang-switcher-wrap" style="margin-bottom: 22px;">
+      <div class="lang-icon-label">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span>Lang</span>
+      </div>
+      <button type="button" class="lang-btn active" data-lang="en" onclick="setLanguage('en')">English</button>
+      <button type="button" class="lang-btn" data-lang="kn" onclick="setLanguage('kn')">ಕನ್ನಡ</button>
+      <button type="button" class="lang-btn" data-lang="hi" onclick="setLanguage('hi')">हिन्दी</button>
+    </div>
+
+    <div class="pulse-badge" data-i18n="homeBadge">
+      <div class="pulse-dot"></div>
+      Unified Clinical Diagnostic Suite • 15 Disease Models Online
+    </div>
+
+    <img src="../static/images/heart.gif" alt="Medical Heartbeat Monitor" class="heart-gif">
+
+    <h1 class="title-headline" data-i18n="homeHeadline">
+      Uncertainty-Aware <span>Explainable Deep Learning</span> Framework for Edge-Based Clinical Diagnosis
+    </h1>
+
+    <p class="subtitle-text" data-i18n="homeSubtitle">
+      An integrated multi-disease clinical intelligence platform consolidating neurological, spinal, cerebrovascular, pulmonary,
+      oncological, orthopedic, ophthalmological, and haematological diagnostics with real-time epistemic uncertainty quantification.
+    </p>
+
+    <!-- Unified Disease Modalities Quick Links (All 15 Diseases) -->
+    <div class="disease-pills-container">
+      <a href="checkup.html?disease=auto" class="disease-pill autodetect-feature-pill" data-disease="auto" style="background: linear-gradient(135deg, rgba(0, 245, 212, 0.25), rgba(56, 189, 248, 0.2)); border: 1.5px solid #00f5d4; box-shadow: 0 0 15px rgba(0, 245, 212, 0.35);">
+        <span>⚡</span> <strong>AI Auto-Detect Modality</strong> (All 15 Datasets)
+      </a>
+      <a href="checkup.html?disease=brain" class="disease-pill" data-disease="brain">
+        <span>🧠</span> Brain Tumor MRI
+      </a>
+      <a href="checkup.html?disease=parkinson" class="disease-pill" data-disease="parkinson">
+        <span>🌀</span> Parkinson's Drawing
+      </a>
+      <a href="checkup.html?disease=alzheimer" class="disease-pill" data-disease="alzheimer">
+        <span>🧩</span> Alzheimer's MRI
+      </a>
+      <a href="checkup.html?disease=stroke" class="disease-pill" data-disease="stroke">
+        <span>⚡</span> Brain Stroke CT
+      </a>
+      <a href="checkup.html?disease=spinal_tumor" class="disease-pill" data-disease="spinal_tumor">
+        <span>🧬</span> Spinal Cord Tumor MRI
+      </a>
+      <a href="checkup.html?disease=pnm" class="disease-pill" data-disease="pnm">
+        <span>🫁</span> Chest Pneumonia X-Ray
+      </a>
+      <a href="checkup.html?disease=tb" class="disease-pill" data-disease="tb">
+        <span>🫁</span> Tuberculosis (TB) X-Ray
+      </a>
+      <a href="checkup.html?disease=lung_cancer" class="disease-pill" data-disease="lung_cancer">
+        <span>🫁</span> Lung Cancer CT
+      </a>
+      <a href="checkup.html?disease=pancreatic_cancer" class="disease-pill" data-disease="pancreatic_cancer">
+        <span>🔬</span> Pancreatic Cancer CT
+      </a>
+      <a href="checkup.html?disease=liver_tumor" class="disease-pill" data-disease="liver_tumor">
+        <span>🩺</span> Liver Tumor (LiTS) CT
+      </a>
+      <a href="checkup.html?disease=bone_tumor" class="disease-pill" data-disease="bone_tumor">
+        <span>🦴</span> Bone Tumor X-Ray
+      </a>
+      <a href="checkup.html?disease=breast" class="disease-pill" data-disease="breast">
+        <span>🔬</span> Breast Cancer (IDC) Biopsy
+      </a>
+      <a href="checkup.html?disease=oct" class="disease-pill" data-disease="oct">
+        <span>👁️</span> Retinal Diseases OCT
+      </a>
+      <a href="checkup.html?disease=dia_ret" class="disease-pill" data-disease="dia_ret">
+        <span>🩺</span> Diabetic Retinopathy Fundus
+      </a>
+      <a href="checkup.html?disease=mal" class="disease-pill" data-disease="mal">
+        <span>🩸</span> Malaria Parasite Blood Smear
+      </a>
+    </div>
+
+    <a href="checkup.html" class="enter-btn">
+      <span data-i18n="homeEnterBtn">Enter All-In-One Diagnostic Application</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+  </div>
+
+  <footer>
+    <p data-i18n="footerText">NeuroEdge Clinical AI &bull; Uncertainty-Aware Explainable Deep Learning System &bull;
+      Edge Diagnostic Architecture</p>
+  </footer>
+
+  <!-- Multi-Language Translation Script -->
+  <script src="../static/js/translations.js"></script>
+</body>
+
+</html>

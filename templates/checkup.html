@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description"
+    content="Unified Multi-Disease Clinical Diagnostic Application with Uncertainty-Aware Deep Learning and Treatment Solutions">
+  <title>Unified Multi-Disease Clinical Diagnostic Suite</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Unified Stylesheet -->
+  <link rel="stylesheet" href="../static/css/unified.css">
+
+  <script>
+    window.SERVER_DEFAULT_DISEASE = "{{ default_disease|default('auto') }}";
+  </script>
+
+  <!-- jQuery for legacy compatibility -->
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Top Header & Navigation -->
+    <header class="header-bar">
+      <a href="index.html" class="brand-wrapper" title="Back to Home Portal">
+        <div class="brand-icon-box">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+          <div class="brand-pulse-dot"></div>
+        </div>
+        <div class="brand-title">
+          <span data-i18n="brandTitle"> Clinical Diagnostic </span>
+          <span class="brand-subtitle" data-i18n="brandSubtitle">Unified Multi-Disease Diagnostic Suite</span>
+        </div>
+      </a>
+
+      <div class="header-meta">
+        <!-- Multi-Language Translator Switcher -->
+        <div class="lang-switcher-wrap" id="header-lang-switcher" title="Select Interface & Clinical Language">
+          <div class="lang-icon-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+              </path>
+            </svg>
+            <span>Lang</span>
+          </div>
+          <button type="button" class="lang-btn active" data-lang="en" onclick="setLanguage('en')">English</button>
+          <button type="button" class="lang-btn" data-lang="kn" onclick="setLanguage('kn')">ಕನ್ನಡ</button>
+          <button type="button" class="lang-btn" data-lang="hi" onclick="setLanguage('hi')">हिन्दी</button>
+        </div>
+
+        <button type="button" class="nav-action-btn" id="btn-open-guide-modal"
+          title="View Medical Explanations and Treatment Manual">
+          <span data-i18n="manualBtn">📚 Disease & Treatment Manual</span>
+        </button>
+        <div class="badge-status" id="badge-models-active" data-i18n="modelsActive">
+          15 Clinical Models Active
+        </div>
+        <a href="index.html" class="nav-action-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span data-i18n="homePortal">Home Portal</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Page Intro Header -->
+    <section class="page-intro">
+      <h1 data-i18n="pageTitle">Unified Multi-Disease Clinical Diagnostic Platform</h1>
+      <p data-i18n="pageSubtitle">High-precision AI medical imaging diagnostics with real-time clinical uncertainty quantification and evidence-based treatment guidelines.</p>
+    </section>
+
+    <!-- MASTER ALL-IN-ONE 15-DISEASE DIAGNOSTIC WORKSPACE -->
+    <section class="diagnostic-workspace all-in-one-workspace" id="all-in-one-workspace">
+      <!-- Workspace Header -->
+      <div class="workspace-master-header">
+        <div class="workspace-title-box">
+          <div class="workspace-badge-row">
+            <span class="step-num-pill">★ ALL-IN-ONE SCANNER</span>
+            <span class="active-pulse-chip" id="chip-models-status">
+              <span class="pulse-dot-small"></span>
+              <span data-i18n="allSixActive" id="text-models-status">All 15 Disease Models Online & Active</span>
+            </span>
+          </div>
+          <h2 data-i18n="unifiedSectionTitle">All-in-One Multi-Disease Clinical Diagnostic Workspace</h2>
+          <p class="unified-subtitle-desc" data-i18n="unifiedSectionSubtitle">
+            Select any of the 15 clinical categories (Brain MRI, Parkinson Drawing, Alzheimer MRI, Stroke CT, Spinal Cord Tumor MRI, Pneumonia, Tuberculosis, Lung Cancer, Pancreatic Cancer, Liver Tumor, Bone Tumor, Breast Biopsy, Retinal OCT, Diabetic Fundus, or Malaria Smear), upload the medical scan, and run deep learning inference with uncertainty quantification and multi-lingual voice narration.
+          </p>
+        </div>
+      </div>
+
+
+
+      <!-- Diagnostic Mode Switcher: Auto-Detect vs Manual 15-Disease Entry -->
+      <div class="mode-toggle-container">
+        <button type="button" class="mode-toggle-btn active" id="btn-mode-auto" onclick="setMode('auto')">
+          <span>⚡</span>
+          <span>AI Auto-Detect Mode</span>
+        </button>
+        <button type="button" class="mode-toggle-btn" id="btn-mode-manual" onclick="setMode('manual')">
+          <span>🔒</span>
+          <span>Manual Disease Selection (All 15 Diseases)</span>
+        </button>
+      </div>
+
+      <!-- Live Mode & Permission Status Banner -->
+      <div class="manual-mode-badge-bar auto" id="mode-status-banner">
+        <div class="badge-left">
+          <span class="badge-icon" id="mode-status-icon">⚡</span>
+          <span class="badge-text" id="mode-status-text">
+            <strong>Auto-Detect Mode Active:</strong> Scan modality will be automatically identified across all 15 benchmark datasets.
+          </span>
+        </div>
+        <button type="button" class="badge-switch-btn" id="mode-switch-btn" onclick="toggleMode()">
+          Switch to Manual Mode
+        </button>
+      </div>
+
+      <!-- Disease Selector Pills Strip -->
+      <div class="disease-selector-strip" id="disease-selector-strip">
+        <span class="strip-label" data-i18n="selectModality">Select Modality:</span>
+        <button type="button" class="strip-pill auto-detect-pill active" data-disease="auto" id="strip-auto" onclick="setScannerMode('auto')">
+          <span class="auto-sparkle">⚡</span> <span data-i18n="autoDetectModality">AUTO-DETECT SCAN</span>
+        </button>
+        <button type="button" class="strip-pill" data-disease="brain" id="strip-brain" onclick="setScannerMode('brain')">
+          <span>🧠</span> Brain MRI
+        </button>
+        <button type="button" class="strip-pill" data-disease="parkinson" id="strip-parkinson" onclick="setScannerMode('parkinson')">
+          <span>🌀</span> Parkinson
+        </button>
+        <button type="button" class="strip-pill" data-disease="alzheimer" id="strip-alzheimer" onclick="setScannerMode('alzheimer')">
+          <span>🧩</span> Alzheimer
+        </button>
+        <button type="button" class="strip-pill" data-disease="stroke" id="strip-stroke" onclick="setScannerMode('stroke')">
+          <span>⚡</span> Brain Stroke
+        </button>
+        <button type="button" class="strip-pill" data-disease="pnm" id="strip-pnm" onclick="setScannerMode('pnm')">
+          <span>🫁</span> Chest X-Ray
+        </button>
+        <button type="button" class="strip-pill" data-disease="oct" id="strip-oct" onclick="setScannerMode('oct')">
+          <span>👁️</span> Retina OCT
+        </button>
+        <button type="button" class="strip-pill" data-disease="dia_ret" id="strip-dia_ret" onclick="setScannerMode('dia_ret')">
+          <span>🩺</span> Diabetic Fundus
+        </button>
+        <button type="button" class="strip-pill" data-disease="breast" id="strip-breast" onclick="setScannerMode('breast')">
+          <span>🔬</span> Breast Biopsy
+        </button>
+        <button type="button" class="strip-pill" data-disease="mal" id="strip-mal" onclick="setScannerMode('mal')">
+          <span>🩸</span> Malaria Smear
+        </button>
+        <button type="button" class="strip-pill" data-disease="tb" id="strip-tb" onclick="setScannerMode('tb')">
+          <span>🫁</span> Tuberculosis
+        </button>
+        <button type="button" class="strip-pill" data-disease="pancreatic_cancer" id="strip-pancreatic_cancer" onclick="setScannerMode('pancreatic_cancer')">
+          <span>🔬</span> Pancreatic Cancer
+        </button>
+        <button type="button" class="strip-pill" data-disease="lung_cancer" id="strip-lung_cancer" onclick="setScannerMode('lung_cancer')">
+          <span>🫁</span> Lung Cancer
+        </button>
+        <button type="button" class="strip-pill" data-disease="liver_tumor" id="strip-liver_tumor" onclick="setScannerMode('liver_tumor')">
+          <span>🩺</span> Liver Tumor
+        </button>
+        <button type="button" class="strip-pill" data-disease="bone_tumor" id="strip-bone_tumor" onclick="setScannerMode('bone_tumor')">
+          <span>🦴</span> Bone Tumor
+        </button>
+        <button type="button" class="strip-pill" data-disease="spinal_tumor" id="strip-spinal_tumor" onclick="setScannerMode('spinal_tumor')">
+          <span>🧬</span> Spinal Cord Tumor
+        </button>
+
+        <!-- Hidden selector for backward compatibility -->
+        <select id="id_one" style="display: none;">
+          <option value="auto" selected>auto</option>
+          <option value="brain">brain</option>
+          <option value="parkinson">parkinson</option>
+          <option value="alzheimer">alzheimer</option>
+          <option value="stroke">stroke</option>
+          <option value="pnm">pnm</option>
+          <option value="oct">oct</option>
+          <option value="dia_ret">dia_ret</option>
+          <option value="breast">breast</option>
+          <option value="mal">mal</option>
+          <option value="tb">tb</option>
+          <option value="pancreatic_cancer">pancreatic_cancer</option>
+          <option value="lung_cancer">lung_cancer</option>
+          <option value="liver_tumor">liver_tumor</option>
+          <option value="bone_tumor">bone_tumor</option>
+          <option value="spinal_tumor">spinal_tumor</option>
+        </select>
+      </div>
+
+      <!-- Dynamic Modality Guide Banner -->
+      <div class="modality-guide-banner" id="modality-guide-banner">
+        <div class="guide-content">
+          <div class="guide-icon" id="guide-icon">🧠</div>
+          <div class="guide-text">
+            <h4 id="guide-modality-title">🧠 Brain Tumor Detection</h4>
+            <p id="guide-modality-desc">Axial or coronal T1, T2, or FLAIR brain MRI scan. Evaluates intracranial mass lesions and neoplasm margins.</p>
+          </div>
+        </div>
+        <div class="guide-specs">
+          <span class="spec-pill" id="spec-input-shape">Resolution: 224 × 224 px</span>
+          <span class="spec-pill" id="spec-target-type">Modality: Brain MRI</span>
+        </div>
+      </div>
+
+      <!-- Workspace Grid (Upload + Specs & Trigger) -->
+      <div class="workspace-grid">
+        <!-- Left Panel: Drag & Drop Zone and Preview -->
+        <div class="workspace-panel">
+          <!-- Dropzone -->
+          <div class="dropzone-box" id="dropzone">
+            <div class="dropzone-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </div>
+            <div class="dropzone-title" data-i18n="dropzoneTitle">Upload Any Clinical Scan</div>
+            <div class="dropzone-desc" id="dropzone-prompt" data-i18n="dropAnyPrompt">
+              Upload ANY medical image belonging to the 15 clinical diseases (PNG/JPG)
+            </div>
+            <button type="button" class="browse-btn" data-i18n="browseBtn">Browse Files</button>
+          </div>
+
+          <!-- Hidden Input for File Selection -->
+          <input type="file" id="file_" name="img" accept="image/*" class="hidden-file-input">
+
+          <!-- Scan Preview Container -->
+          <div class="preview-container" id="preview-container">
+            <div class="scan-frame">
+              <div class="scan-hud-overlay">
+                <span class="hud-tag" id="hud-filename">scan.jpg</span>
+                <span class="hud-tag" id="hud-resolution">--×--</span>
+                <span class="hud-tag" id="hud-filesize">-- KB</span>
+              </div>
+              <div class="scan-radar-beam"></div>
+              <img id="blah" src="../static/images/pht.gif" alt="Medical Scan Preview" class="scan-image">
+            </div>
+
+            <div class="preview-actions">
+              <button type="button" class="change-scan-btn" onclick="resetScanImage()" data-i18n="removeBtn">
+                ✕ Remove & Select Different Scan
+              </button>
+            </div>
+          </div>
+
+          <!-- Real-Time Auto-Detection Telemetry HUD -->
+          <div class="autodetect-hud-card" id="autodetect-hud" style="display: none;">
+            <div class="autodetect-hud-header">
+              <div class="hud-status-badge">
+                <span class="hud-pulse"></span>
+                <span data-i18n="aiModalityIdentified">AI MODALITY IDENTIFIED</span>
+              </div>
+              <span class="hud-conf-pill" id="hud-match-confidence">99.4% Match</span>
+            </div>
+            <div class="autodetect-hud-body">
+              <div class="hud-disease-row">
+                <span class="hud-disease-icon" id="hud-detected-icon">🫁</span>
+                <div>
+                  <h4 class="hud-disease-title" id="hud-detected-title">Chest Pneumonia Analysis</h4>
+                  <p class="hud-modality-sub" id="hud-detected-modality">Modality: Chest Radiography (X-Ray PA/AP)</p>
+                </div>
+              </div>
+              <div class="hud-signatures-wrap">
+                <span class="hud-sig-label">Detected Anatomical Signatures:</span>
+                <div class="hud-signatures-list" id="hud-signatures-list">
+                  <!-- Populated dynamically via JS -->
+                </div>
+              </div>
+              <div class="hud-dataset-source" id="hud-dataset-source">
+                <span class="source-lbl">Benchmark Dataset:</span>
+                <a href="#" target="_blank" id="hud-dataset-link" class="hud-dataset-a" title="Open Kaggle Dataset">
+                  <span id="hud-dataset-name">Chest X-Ray Images (Pneumonia)</span> ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel: Inference Trigger & Specifications -->
+        <div class="workspace-panel trigger-panel">
+          <div>
+            <!-- Patient Demographic Intake Form -->
+            <div class="patient-intake-card">
+              <div class="patient-intake-header">
+                <span class="patient-intake-icon">👤</span>
+                <span class="patient-intake-title" data-i18n="patientIntakeTitle">Patient Demographic Intake</span>
+              </div>
+              <div class="patient-intake-grid">
+                <div class="patient-field">
+                  <label for="input-patient-name" class="patient-field-label" data-i18n="patientName">Patient Name</label>
+                  <input type="text" id="input-patient-name" class="patient-field-input" placeholder="e.g. John Doe" value="John Doe">
+                </div>
+                <div class="patient-field">
+                  <label for="input-patient-age" class="patient-field-label" data-i18n="patientAge">Age</label>
+                  <input type="number" id="input-patient-age" class="patient-field-input" placeholder="e.g. 45" value="45" min="1" max="120">
+                </div>
+                <div class="patient-field">
+                  <label for="input-patient-sex" class="patient-field-label" data-i18n="patientSex">Sex</label>
+                  <select id="input-patient-sex" class="patient-field-input patient-field-select">
+                    <option value="Male" selected>Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="patient-field full-width">
+                  <label for="input-patient-address" class="patient-field-label" data-i18n="patientAddress">Residential Address</label>
+                  <input type="text" id="input-patient-address" class="patient-field-input" placeholder="e.g. 142 Medical Center Blvd, Suite 4B" value="142 Medical Center Blvd, Suite 4B">
+                </div>
+              </div>
+            </div>
+
+            <div class="specs-list">
+              <div class="spec-item">
+                <span class="label" data-i18n="targetDisease">Scanner Target</span>
+                <span class="val" id="spec-active-disease">🧠 Brain Tumor Detection</span>
+              </div>
+              <div class="spec-item">
+                <span class="label" data-i18n="diagnosticModality">Recognized Modality</span>
+                <span class="val" id="spec-active-modality">Brain MRI (Magnetic Resonance)</span>
+              </div>
+              <div class="spec-item">
+                <span class="label" data-i18n="uncertaintyMetric">Uncertainty Metric</span>
+                <span class="val" data-i18n="shannonEntropy">Diagnostic Uncertainty Score</span>
+              </div>
+              <div class="spec-item">
+                <span class="label" data-i18n="deepLearningCore">Active Suite</span>
+                <span class="val">Brain, Pneumonia, OCT, Retino, Breast, Malaria</span>
+              </div>
+            </div>
+
+            <button type="button" id="button1" class="analyse-btn" disabled>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span data-i18n="runAnalysisBtn">Run Clinical AI Analysis</span>
+            </button>
+          </div>
+
+          <!-- Loading Progress State -->
+          <div class="loading-box" id="loading-box">
+            <div class="radar-spinner"></div>
+            <div class="loading-text" id="loading-ticker" data-i18n="analyzingTicker">Analyzing clinical scan and calculating diagnostics...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Step 3: Diagnostic Clinical Report Output -->
+    <section class="report-card-container" id="report-container">
+      <div class="report-card">
+        <!-- Header -->
+        <div class="report-header">
+          <div class="report-header-left">
+            <div class="report-seal">🩺</div>
+            <div class="report-title-box">
+              <h2 data-i18n="reportTitle">AI Clinical Diagnostic Report</h2>
+              <p id="rep-modality-name">Brain Tumor Detection (MRI)</p>
+            </div>
+          </div>
+          <div class="report-header-right">
+            <div><span data-i18n="caseId">Case ID</span>: <span id="rep-scan-id">SCAN-8921B</span></div>
+            <div><span data-i18n="timestamp">Timestamp</span>: <span id="rep-timestamp">--</span></div>
+          </div>
+        </div>
+
+        <!-- Verified Manual Diagnostic Attestation Badge -->
+        <div class="manual-report-badge" id="rep-manual-badge" style="display: none;">
+          <div class="manual-report-badge-inner">
+            <span class="tag-icon">🔒</span>
+            <div>
+              <span class="tag-label">VERIFIED MANUAL DIAGNOSTIC PIPELINE</span>
+              <span class="tag-val" id="rep-manual-title">Brain Tumor Detection (MRI) • Direct Model Execution</span>
+              <span class="tag-sub">User Manual Entry Permission Active • Auto-Detection Override Disabled</span>
+            </div>
+          </div>
+          <span class="patient-badge-verified" style="margin: 0;">✓ Manual Selection Enforced</span>
+        </div>
+
+        <!-- Real-Time Auto-Detected Modality Verification Banner in Report -->
+        <div class="autodetect-report-badge" id="rep-autodetect-badge" style="display: none;">
+          <div class="autodetect-badge-inner">
+            <span class="autodetect-tag-icon">⚡</span>
+            <div>
+              <span class="autodetect-tag-label" data-i18n="autoDetectedModality">AI AUTO-ROUTED MODALITY</span>
+              <span class="autodetect-tag-val" id="rep-autodetect-title">Chest Radiography (X-Ray PA/AP) • 99.4% Match</span>
+            </div>
+          </div>
+          <a href="#" target="_blank" id="rep-autodetect-source-link" class="autodetect-source-pill" title="View Kaggle Benchmark Dataset">
+            <span id="rep-autodetect-source-text">Verified Kaggle Dataset ↗</span>
+          </a>
+        </div>
+
+        <!-- Instant Re-Analyze / Manual Override Strip -->
+        <div class="report-reanalyze-box" id="report-reanalyze-box">
+          <div class="report-reanalyze-header">
+            <h4><span>🔄</span> Re-Analyze Scan with Specific Disease Model:</h4>
+            <p>Click any disease below to immediately evaluate the current scan under that model without re-uploading:</p>
+          </div>
+          <div class="report-reanalyze-buttons">
+            <button type="button" class="report-reanalyze-btn" data-reanalyze="brain" onclick="reanalyzeCurrentScan('brain')">
+              🧠 Brain MRI
+            </button>
+            <button type="button" class="report-reanalyze-btn" data-reanalyze="parkinson" onclick="reanalyzeCurrentScan('parkinson')">
+              🌀 Parkinson
+            </button>
+            <button type="button" class="report-reanalyze-btn" data-reanalyze="alzheimer" onclick="reanalyzeCurrentScan('alzheimer')">
+              🧩 Alzheimer
+            </button>
+            <button type="button" class="report-reanalyze-btn" data-reanalyze="stroke" onclick="reanalyzeCurrentScan('stroke')">
+              ⚡ Brain Stroke
+            </button>
+            <button type="button" class="report-reanalyze-btn" data-reanalyze="pnm" onclick="reanalyzeCurrentScan('pnm')">
+              🫁 Chest X-Ray
+            </button>
+            <button type="button" class="report-reanalyze-btn" data-reanalyze="oct" onclick="reanalyzeCurrentScan('oct')">
+              👁️ Retina OCT
+            </button>
+            <button type="button" class="report-reanalyze-btn" data-reanalyze="dia_ret" onclick="reanalyzeCurrentScan('dia_ret')">
+              🩺 Diabetic Fundus
+            </button>
+            <button type="button" class="report-reanalyze-btn" data-reanalyze="breast" onclick="reanalyzeCurrentScan('breast')">
+              🔬 Breast Biopsy
+            </button>
+            <button type="button" class="report-reanalyze-btn" data-reanalyze="mal" onclick="reanalyzeCurrentScan('mal')">
+              🩸 Malaria Smear
+            </button>
+          </div>
+        </div>
+
+
+        <!-- PATIENT DETAILS CARD -->
+        <div class="report-patient-card" id="report-patient-card">
+          <div class="report-patient-header">
+            <div class="patient-header-left">
+              <span class="patient-card-icon">👤</span>
+              <div>
+                <h3 class="patient-card-title" data-i18n="patientDetailsTitle">Patient Demographics &amp; Clinical Information</h3>
+                <span class="patient-card-sub" data-i18n="patientRecordVerified">Verified Electronic Health Record (EHR)</span>
+              </div>
+            </div>
+            <span class="patient-badge-verified">✓ Verified Patient Record</span>
+          </div>
+          <div class="patient-info-grid">
+            <div class="patient-info-item">
+              <span class="patient-info-label" data-i18n="patientName">Patient Name</span>
+              <span class="patient-info-val" id="rep-patient-name">John Doe</span>
+            </div>
+            <div class="patient-info-item">
+              <span class="patient-info-label" data-i18n="patientAge">Age</span>
+              <span class="patient-info-val" id="rep-patient-age">45 Yrs</span>
+            </div>
+            <div class="patient-info-item">
+              <span class="patient-info-label" data-i18n="patientSex">Sex / Gender</span>
+              <span class="patient-info-val" id="rep-patient-sex">Male</span>
+            </div>
+            <div class="patient-info-item full-width">
+              <span class="patient-info-label" data-i18n="patientAddress">Residential Address</span>
+              <span class="patient-info-val" id="rep-patient-address">142 Medical Center Blvd, Suite 4B</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLINICAL AI TEXT-TO-SPEECH VOICE READER BAR -->
+        <div class="voice-reader-bar" id="voice-reader-panel">
+          <div class="voice-reader-info">
+            <div class="voice-speaker-badge" id="voice-speaker-icon" title="Clinical Audio Reader">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </div>
+            <div class="voice-reader-meta">
+              <h4 id="voice-narrator-title">
+                <span data-i18n="voiceReaderTitle">AI Clinical Voice Reader</span>
+                <span class="audio-wave-box" id="audio-wave-indicator">
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                </span>
+              </h4>
+              <div class="voice-reader-status" id="voice-reader-status">
+                <span data-i18n="voiceStatusReady">Ready to read clinical report aloud</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="voice-controls-group">
+            <button type="button" class="voice-btn primary" id="btn-voice-read" onclick="toggleReadReport()"
+              title="Listen to Full Diagnostic Report">
+              <span id="btn-voice-read-icon">🔊</span>
+              <span id="btn-voice-read-text" data-i18n="readReportBtn">Read Report Aloud</span>
+            </button>
+            <button type="button" class="voice-btn" id="btn-voice-pause" onclick="togglePauseReport()"
+              title="Pause / Resume Narration" style="display: none;">
+              <span id="btn-voice-pause-text" data-i18n="pauseAudioBtn">⏸️ Pause Voice</span>
+            </button>
+            <button type="button" class="voice-btn" id="btn-voice-stop" onclick="stopTextReader()"
+              title="Stop Audio Narration" style="display: none;">
+              <span data-i18n="stopAudioBtn">⏹️ Stop Voice</span>
+            </button>
+            <select id="voice-speed-select" class="voice-speed-select" title="Speech Playback Speed">
+              <option value="0.85">0.85× (Slow)</option>
+              <option value="1.0" selected>1.0× (Normal)</option>
+              <option value="1.2">1.2× (Fast)</option>
+            </select>
+          </div>
+        </div>
+
+
+
+        <!-- Primary Verdict Banner -->
+        <div class="verdict-banner danger" id="verdict-banner">
+          <div class="verdict-icon-box" id="verdict-icon">⚠️</div>
+          <div class="verdict-info">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+              <span class="verdict-tag" id="verdict-tag">PATHOLOGY DETECTED — CLINICAL INTERVENTION ADVISED</span>
+              <button type="button" class="section-voice-btn" id="btn-voice-verdict"
+                onclick="readSectionText('verdict')" title="Listen to Verdict">
+                🔊 <span data-i18n="readVerdictBtn">Listen to Verdict</span>
+              </button>
+            </div>
+            <div class="verdict-headline" id="verdict-headline">Brain Tumor Lesion Detected</div>
+            <div class="verdict-summary" id="verdict-summary">The MRI scan has evidence of a brain tumor.</div>
+          </div>
+        </div>
+
+        <!-- Metrics Row: Confidence & Uncertainty -->
+        <div class="metrics-row">
+          <div class="metric-card confidence">
+            <div class="metric-gauge-box" id="metric-conf-val">98.4%</div>
+            <div class="metric-content">
+              <h4 data-i18n="modelConfidenceTitle">Model Confidence Score</h4>
+              <p data-i18n="modelConfidenceDesc">Statistical confidence of predicted pathology across neural layers.
+              </p>
+              <span class="metric-badge high" data-i18n="highConfidenceBadge">High Confidence</span>
+            </div>
+          </div>
+
+          <div class="metric-card uncertainty">
+            <div class="metric-gauge-box" id="metric-unc-val">1.6%</div>
+            <div class="metric-content">
+              <h4 data-i18n="uncertaintyTitle">Diagnostic Uncertainty Index</h4>
+              <p data-i18n="uncertaintyDesc">Quantified diagnostic uncertainty across all possible clinical classes.</p>
+              <span class="metric-badge high" id="metric-unc-badge">High Reliability</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Class Probabilities Bar Charts -->
+        <div class="probabilities-card">
+          <div
+            style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <h3 style="margin-bottom: 0;">
+              <span data-i18n="classProbabilitiesTitle">Diagnostic Class Probabilities</span>
+              <span style="font-size: 12px; color: var(--text-dim); font-weight: normal; margin-left: 8px;"
+                data-i18n="probVectorLabel">Probability (%)</span>
+            </h3>
+            <button type="button" class="section-voice-btn" id="btn-voice-metrics" onclick="readSectionText('metrics')"
+              title="Listen to Probability Metrics">
+              🔊 <span data-i18n="readMetricsBtn">Listen to Metrics</span>
+            </button>
+          </div>
+          <div class="prob-bars-list" id="prob-bars-list">
+            <!-- Dynamically populated via JS -->
+          </div>
+        </div>
+
+
+        <!-- Clinical Notes & Recommendations -->
+        <div class="recommendation-box">
+          <div
+            style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+            <h4 style="margin-bottom: 0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span data-i18n="diagnosticSummaryTitle">Clinical Guidance & Diagnostic Summary</span>
+            </h4>
+            <button type="button" class="section-voice-btn" id="btn-voice-guidance"
+              onclick="readSectionText('guidance')" title="Listen to Clinical Guidance">
+              🔊 <span data-i18n="readGuidanceBtn">Listen to Guidance</span>
+            </button>
+          </div>
+          <p id="rec-text">Neurosurgical consultation recommended. Correlate with contrast-enhanced MRI and neurological
+            assessment.</p>
+        </div>
+
+        <!-- Clinical Disease Pathological Overview Card -->
+        <div class="report-section-card explanation-card">
+          <div class="report-section-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="report-section-icon">📖</span>
+              <h4 class="report-section-title" data-i18n="treatmentSectionTitle">Clinical Disease Explanation &amp; Overview</h4>
+            </div>
+            <button type="button" class="section-voice-btn" id="btn-voice-treatment"
+              onclick="readSectionText('treatment')" title="Listen to Clinical Protocols">
+              🔊 <span data-i18n="readTreatmentBtn">Listen to Protocols</span>
+            </button>
+          </div>
+          <div class="treatment-explanation-card" id="rep-disease-explanation">
+            <strong>Pathological Overview:</strong> Loading disease pathophysiology...
+          </div>
+        </div>
+
+        <!-- 1. Pharmacotherapy Card -->
+        <div class="report-section-card protocol-card meds-card">
+          <div class="protocol-card-title meds">
+            <span>💊</span> <span data-i18n="medsTitle">Pharmacotherapy — Primary Regimens &amp; Medications</span>
+          </div>
+          <ul class="protocol-list" id="protocol-list-meds">
+            <!-- Populated dynamically via JS -->
+          </ul>
+        </div>
+
+        <!-- 2. Interventional & Surgical Procedures Card -->
+        <div class="report-section-card protocol-card surgery-card">
+          <div class="protocol-card-title surgery">
+            <span>💉</span> <span data-i18n="surgeryTitle">Interventional &amp; Surgical Procedures</span>
+          </div>
+          <ul class="protocol-list" id="protocol-list-surgery">
+            <!-- Populated dynamically via JS -->
+          </ul>
+        </div>
+
+        <!-- 3. Surveillance & Care Card -->
+        <div class="report-section-card protocol-card monitoring-card">
+          <div class="protocol-card-title monitor">
+            <span>📋</span> <span data-i18n="monitorTitle">Surveillance and Care — Monitoring &amp; Lifestyle</span>
+          </div>
+          <ul class="protocol-list" id="protocol-list-monitoring">
+            <!-- Populated dynamically via JS -->
+          </ul>
+        </div>
+
+        <!-- Clinical Attestation & Signature Sign-off Block -->
+        <div class="report-attestation-block" id="report-attestation-block">
+          <div class="attestation-grid">
+            <div class="attestation-item">
+              <span class="attestation-label">Laboratory &amp; Facility</span>
+              <span class="attestation-val">NeuroEdge Clinical AI Diagnostic Lab</span>
+              <span class="attestation-sub">Certified Digital Diagnostic Pipeline</span>
+            </div>
+            <div class="attestation-item">
+              <span class="attestation-label">Diagnostic Status</span>
+              <span class="attestation-val">Verified Clinical Diagnostic Report</span>
+              <span class="attestation-sub" id="rep-auth-code">Validation ID: EHR-VERIFIED</span>
+            </div>
+            <div class="attestation-item signature-box">
+              <span class="attestation-label">
+                Attending Reviewer <span class="edit-badge-pill" title="Click on doctor name or title below to edit">✎ Click to Edit</span>
+              </span>
+              <div class="signature-line">
+                <span class="digital-sig editable-reviewer-field" id="rep-reviewer-name" contenteditable="true" spellcheck="false" title="Click to edit reviewer name">Dr. A. Vance, M.D.</span>
+              </div>
+              <span class="attestation-sub editable-reviewer-field" id="rep-reviewer-title" contenteditable="true" spellcheck="false" title="Click to edit reviewer designation">Chief of Clinical Diagnostics • Digitally Approved</span>
+            </div>
+          </div>
+          <div class="report-disclaimer">
+            <strong>Clinical Disclaimer:</strong> This medical diagnostic report is compiled via deep learning computational models with quantified uncertainty indices for clinical decision support. Final clinical diagnoses and therapeutic decisions must be corroborated by a licensed healthcare professional.
+          </div>
+        </div>
+
+        <!-- Report Utility Actions -->
+        <div class="report-actions-row">
+          <button type="button" class="report-btn" id="btn-voice-read-footer" onclick="toggleReadReport()"
+            title="Read Entire Clinical Report Aloud">
+            🔊 <span data-i18n="readReportBtn">Read Report Aloud</span>
+          </button>
+          <button type="button" class="report-btn" id="btn-print-report" data-i18n="printReportBtn">
+            🖨️ Print / Export Medical Report
+          </button>
+          <button type="button" class="report-btn primary" id="btn-new-analysis" data-i18n="analyzeAnotherBtn">
+            🔄 Analyze Another Scan
+          </button>
+        </div>
+
+        <!-- Hidden Legacy Elements for 100% Backward Compatibility -->
+        <div style="display: none;">
+          <h2 id="demo"></h2>
+          <div id="status"></div>
+          <div id="status1"></div>
+          <div id="status2"></div>
+          <div id="status3"></div>
+          <div id="result"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 73-Sample Clinical Datasets Showcase Section (Runs in background, hidden from UI) -->
+    <section class="samples-showcase-section" id="samples-showcase-section" style="display: none;">
+      <div class="showcase-header">
+        <div class="showcase-header-left">
+          <div class="showcase-badge-pill">
+            <span class="sparkle-dot"></span>
+            <span>Validated Kaggle Clinical Benchmarks</span>
+          </div>
+          <h3 class="showcase-title">Clinical Benchmark Samples Library (121 Real Scans)</h3>
+          <p class="showcase-desc">
+            Explore 73 authentic Kaggle-verified clinical scans across all 15 disease domains (8-9 per disease: Parkinson's kinematic sketches, Alzheimer's MRI atrophy stages, Stroke lesions, Brain tumors, Chest X-Rays, OCT, Diabetic Fundus, Biopsy, and Blood Smears). Click "Test in Auto-Detect" to evaluate the multi-disease classifier and uncertainty pipeline in real-time.
+          </p>
+        </div>
+        <div class="showcase-stats">
+          <div class="stat-bubble">
+            <span class="stat-bubble-num">15</span>
+            <span class="stat-bubble-lbl">Diseases</span>
+          </div>
+          <div class="stat-bubble">
+            <span class="stat-bubble-num">121</span>
+            <span class="stat-bubble-lbl">Scans</span>
+          </div>
+          <div class="stat-bubble">
+            <span class="stat-bubble-num">100%</span>
+            <span class="stat-bubble-lbl">Verified</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Strip -->
+      <div class="samples-filter-strip">
+        <button type="button" class="sample-filter-btn active" data-filter="all" onclick="filterSamplesGallery('all')">🌟 All 73 Samples</button>
+        <button type="button" class="sample-filter-btn" data-filter="parkinson" onclick="filterSamplesGallery('parkinson')">🌀 Parkinson's (8)</button>
+        <button type="button" class="sample-filter-btn" data-filter="alzheimer" onclick="filterSamplesGallery('alzheimer')">🧩 Alzheimer's (8)</button>
+        <button type="button" class="sample-filter-btn" data-filter="stroke" onclick="filterSamplesGallery('stroke')">⚡ Brain Stroke (8)</button>
+        <button type="button" class="sample-filter-btn" data-filter="brain" onclick="filterSamplesGallery('brain')">🧠 Brain Tumor (9)</button>
+        <button type="button" class="sample-filter-btn" data-filter="pnm" onclick="filterSamplesGallery('pnm')">🫁 Pneumonia (8)</button>
+        <button type="button" class="sample-filter-btn" data-filter="oct" onclick="filterSamplesGallery('oct')">👁️ Retina OCT (8)</button>
+        <button type="button" class="sample-filter-btn" data-filter="dia_ret" onclick="filterSamplesGallery('dia_ret')">🩺 Diabetic Retinopathy (8)</button>
+        <button type="button" class="sample-filter-btn" data-filter="breast" onclick="filterSamplesGallery('breast')">🔬 Breast Cancer IDC (8)</button>
+        <button type="button" class="sample-filter-btn" data-filter="mal" onclick="filterSamplesGallery('mal')">🩸 Malaria Smear (8)</button>
+      </div>
+
+      <!-- Samples Grid -->
+      <div class="samples-grid" id="samples-grid">
+        <!-- Populated dynamically by unified.js initSamplesGallery() -->
+      </div>
+    </section>
+  </div>
+
+  <!-- CLINICAL REFERENCE MANUAL MODAL -->
+  <div class="modal-overlay" id="disease-guide-modal">
+    <div class="modal-content-box">
+      <button type="button" class="modal-close-btn" id="btn-close-modal">&times;</button>
+      <h2 class="modal-header-title" id="modal-disease-title">🧠 Brain Tumor Detection</h2>
+      <div class="modal-header-sub" id="modal-disease-sub">Diagnostic Modality: Brain MRI</div>
+
+      <!-- Disease Selector Pills within Modal -->
+      <div class="modal-disease-nav">
+        <button type="button" class="modal-nav-pill active" data-modal-disease="brain">🧠 Brain Tumor</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="parkinson">🌀 Parkinson's</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="alzheimer">🧩 Alzheimer's</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="stroke">⚡ Brain Stroke</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="pnm">🫁 Pneumonia</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="oct">👁️ Retina OCT</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="dia_ret">🩺 Diabetic Retinopathy</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="breast">🔬 Breast Cancer IDC</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="mal">🩸 Malaria Parasite</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="tb">🫁 Tuberculosis</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="pancreatic_cancer">🔬 Pancreatic Cancer</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="lung_cancer">🫁 Lung Cancer</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="liver_tumor">🩺 Liver Tumor</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="bone_tumor">🦴 Bone Tumor</button>
+        <button type="button" class="modal-nav-pill" data-modal-disease="spinal_tumor">🧬 Spinal Cord Tumor</button>
+      </div>
+
+      <!-- Modal Canonical Reference Scan Preview Card -->
+      <div class="modal-scan-preview-card">
+        <div class="modal-scan-preview-header">
+          <span style="font-size: 13px; font-weight: 700; color: #00f5d4; text-transform: uppercase; letter-spacing: 0.5px;">
+            🖼️ Canonical Modality Scan Benchmark
+          </span>
+          <span class="modal-scan-badge" id="modal-scan-modality">Modality: Brain MRI</span>
+        </div>
+        <div class="modal-scan-img-box">
+          <img id="modal-disease-img" src="../static/samples/brain_sample.jpg" alt="Canonical Disease Scan Benchmark" class="modal-disease-banner-img">
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="treatment-explanation-card" style="margin-bottom: 20px;">
+        <strong style="color: #00f5d4; font-size: 15px; display: block; margin-bottom: 6px;"
+          data-i18n="modalPathologyHeading">Pathophysiology &amp; Disease Description:</strong>
+        <p id="modal-disease-desc">Loading disease description...</p>
+      </div>
+
+      <div class="treatment-explanation-card" style="margin-bottom: 20px; border-color: rgba(245, 158, 11, 0.4);">
+        <strong style="color: #f59e0b; font-size: 15px; display: block; margin-bottom: 6px;"
+          data-i18n="modalSymptomsHeading">Typical Clinical Symptoms &amp; Hallmarks:</strong>
+        <ul class="protocol-list" id="modal-disease-symptoms" style="margin-top: 8px;">
+          <!-- Populated dynamically via JS -->
+        </ul>
+      </div>
+
+      <div class="treatment-grid">
+        <div class="protocol-card">
+          <div class="protocol-card-title meds">
+            <span>💊</span> <span data-i18n="modalMedsHeading">Recommended Pharmacotherapy</span>
+          </div>
+          <ul class="protocol-list" id="modal-disease-meds">
+            <!-- Populated dynamically via JS -->
+          </ul>
+        </div>
+
+        <div class="protocol-card">
+          <div class="protocol-card-title surgery">
+            <span>💉</span> <span data-i18n="modalSurgeryHeading">Surgical &amp; Interventional Procedures</span>
+          </div>
+          <ul class="protocol-list" id="modal-disease-surgery">
+            <!-- Populated dynamically via JS -->
+          </ul>
+        </div>
+
+        <div class="protocol-card">
+          <div class="protocol-card-title monitor">
+            <span>📋</span> <span data-i18n="modalMonitorHeading">Monitoring, Prevention &amp; Care</span>
+          </div>
+          <ul class="protocol-list" id="modal-disease-monitor">
+            <!-- Populated dynamically via JS -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Language Translation Script -->
+  <script src="../static/js/translations.js"></script>
+  <!-- Unified Engine Script -->
+  <script src="../static/js/unified.js"></script>
+</body>
+
+</html>
